@@ -1,0 +1,88 @@
+diff --git a/core/fontinfo.cpp b/core/fontinfo.cpp
+index 59ea79f..a102632 100644
+--- a/core/fontinfo.cpp
++++ b/core/fontinfo.cpp
+@@ -27,6 +27,7 @@ class Okular::FontInfoPrivate
+         bool operator==( const FontInfoPrivate &rhs ) const
+         {
+             return name == rhs.name &&
++                   substituteName == rhs.substituteName &&
+                    type == rhs.type &&
+                    embedType == rhs.embedType &&
+                    file == rhs.file &&
+@@ -35,6 +36,7 @@ class Okular::FontInfoPrivate
+         }
+ 
+         QString name;
++        QString substituteName;
+         FontInfo::FontType type;
+         FontInfo::EmbedType embedType;
+         bool canBeExtracted;
+@@ -67,6 +69,16 @@ void FontInfo::setName( const QString& name )
+     d->name = name;
+ }
+ 
++QString FontInfo::substituteName() const
++{
++    return d->substituteName;
++}
++
++void FontInfo::setSubstituteName( const QString& substituteName )
++{
++    d->substituteName = substituteName;
++}
++
+ FontInfo::FontType FontInfo::type() const
+ {
+     return d->type;
+diff --git a/core/fontinfo.h b/core/fontinfo.h
+index d11b3b0..a7f5e78 100644
+--- a/core/fontinfo.h
++++ b/core/fontinfo.h
+@@ -84,6 +84,16 @@ class OKULAR_EXPORT FontInfo
+          */
+         void setName( const QString& name );
+ 
++	/**
++	 * Returns the substitute name for the font.
++	 */
++	QString substituteName() const;
++
++	/**
++	 * Sets a new substitute name for the font.
++	 */
++	void setSubstituteName (const QString& substituteName );
++
+         /**
+          * Returns the type of the font.
+          */
+diff --git a/generators/poppler/generator_pdf.cpp b/generators/poppler/generator_pdf.cpp
+index 7d27f6e..71dec86 100644
+--- a/generators/poppler/generator_pdf.cpp
++++ b/generators/poppler/generator_pdf.cpp
+@@ -827,6 +827,7 @@ Okular::FontInfo::List PDFGenerator::fontsForPage( int page )
+     {
+         Okular::FontInfo of;
+         of.setName( font.name() );
++        of.setSubstituteName( font.substituteName() );
+         of.setType( convertPopplerFontInfoTypeToOkularFontInfoType( font.type() ) );
+         of.setEmbedType( embedTypeForPopplerFontInfo( font) );
+         of.setFile( font.file() );
+diff --git a/ui/propertiesdialog.cpp b/ui/propertiesdialog.cpp
+index dd7bb5c..ad61859 100644
+--- a/ui/propertiesdialog.cpp
++++ b/ui/propertiesdialog.cpp
+@@ -368,7 +368,12 @@ QVariant FontsListModel::data( const QModelIndex &index, int role ) const
+                     return descriptionForFontType( m_fonts.at( index.row() ).type() );
+                     break;
+                 case 2:
+-                    return pathOrDescription( m_fonts.at( index.row() ) );
++                    QString pathOrDesc = pathOrDescription( m_fonts.at( index.row() ) );
++                    QString substituteName = m_fonts.at( index.row() ).substituteName();
++                    if (m_fonts.at( index.row() ).embedType() == Okular::FontInfo::NotEmbedded && !substituteName.isEmpty()) {
++                        return QString("%1 (substituting with %2)").arg(pathOrDesc).arg(substituteName);
++                    }
++                    return pathOrDesc;
+                     break;
+             }
+             break;

@@ -1,7 +1,7 @@
-Name:    okular 
+Name:    okular
 Summary: A document viewer
 Version: 4.10.5
-Release: 4%{?dist}
+Release: 7%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -26,6 +26,8 @@ Patch52: okular-gcc-overflow.patch
 # don't build component if ACTIVEAPP_FOUND FALSE 
 Patch53: okular-4.10-cmake.patch
 
+Patch54: okular-add-information-about-substituting-font.patch
+
 %if 0%{?fedora}
 BuildRequires: chmlib-devel
 BuildRequires: ebook-tools-devel
@@ -48,7 +50,7 @@ Requires: %{name}-part%{?_isa} = %{version}-%{release}
 %if 0%{?fedora}
 Requires: kio_msits = %{kio_msits_epoch}:%{version}-%{release}
 %endif
-Requires: kde-runtime%{?_kde4_version: >= %{_kde4_version}}
+Requires: kde-runtime >= 4.10.5
 
 %description
 %{summary}.
@@ -95,6 +97,7 @@ Summary: A kioslave for displaying WinHelp files
 %patch51 -p2 -b .OkularConfig
 %patch52 -p1 -b .overflow
 %patch53 -p1 -b .cmake
+%patch54 -p1 -b .add-information-about-substituting-font
 
 %build
 mkdir -p %{_target_platform}
@@ -177,6 +180,18 @@ fi
 
 
 %changelog
+* Tue May 07 2019 Jan Grulich <jgrulich@redhat.com> - 4.10.5-7
+- Fix patch adding information about substituting font
+  Resolves: bz#1458037
+
+* Fri Feb 01 2019 Jan Grulich <jgrulich@redhat.com> - 4.10.5-6
+- Fix broken dependency on kde-runtime
+  Resolves: bz#1670723
+
+* Thu Jan 17 2019 Jan Grulich <jgrulich@redhat.com> - 4.10.5-5
+- Add information about substituting font
+  Resolves: bz#1458037
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 4.10.5-4
 - Mass rebuild 2014-01-24
 
