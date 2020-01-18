@@ -1,0 +1,12 @@
+diff -up okular-4.10.2/active/CMakeLists.txt.me okular-4.10.2/active/CMakeLists.txt
+--- okular-4.10.2/active/CMakeLists.txt.me	2013-04-09 17:34:36.086464571 +0200
++++ okular-4.10.2/active/CMakeLists.txt	2013-04-09 17:35:02.737461052 +0200
+@@ -4,7 +4,5 @@ macro_log_feature(ACTIVEAPP_FOUND "Activ
+ 
+ if (ACTIVEAPP_FOUND)
+     add_subdirectory( app )
++    add_subdirectory( components )
+ endif (ACTIVEAPP_FOUND)
+-
+-add_subdirectory( components )
+- 

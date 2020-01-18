@@ -1,0 +1,8 @@
+ClassName=Settings
+Namespace=Okular
+File=okular.kcfg
+Inherits=SettingsCore
+Mutators=true
+Singleton=true
+IncludeFiles=settings_core.h
+MemberVariables=dpointer

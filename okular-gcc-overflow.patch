@@ -1,0 +1,12 @@
+diff -up okular-4.9.5/generators/dvi/special.cpp.me okular-4.9.5/generators/dvi/special.cpp
+--- okular-4.9.5/generators/dvi/special.cpp.me	2013-01-30 17:57:45.269341954 +0100
++++ okular-4.9.5/generators/dvi/special.cpp	2013-01-31 13:23:54.897936518 +0100
+@@ -480,7 +480,7 @@ void dviRenderer::TPIC_addPath_special(c
+   if (TPIC_path.size() == 0)
+     number_of_elements_in_path = 0;
+   if (TPIC_path.size() == number_of_elements_in_path)
+-    TPIC_path.resize(number_of_elements_in_path+100);
++    TPIC_path.resize(number_of_elements_in_path+100U);
+   TPIC_path.setPoint(number_of_elements_in_path++, x, y);
+ }
+ 
