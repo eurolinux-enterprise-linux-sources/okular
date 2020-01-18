@@ -1,7 +1,7 @@
 Name:    okular 
 Summary: A document viewer
 Version: 4.10.5
-Release: 2%{?dist}
+Release: 4%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -177,6 +177,12 @@ fi
 
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 4.10.5-4
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 4.10.5-3
+- Mass rebuild 2013-12-27
+
 * Tue Sep 10 2013 Than Ngo <than@redhat.com> - 4.10.5-2
 - don't build djvulibre in rhel
 
